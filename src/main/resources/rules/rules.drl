@@ -1,0 +1,27 @@
+
+package rules
+
+import com.example.springdrools.model.Product
+import com.example.springdrools.model.TypeEnum
+import com.example.springdrools.NumberFormatException
+
+rule "Offer for Diamond"
+	when
+		$productObject: Product(TypeEnum.DIAMOND.type.equals(type))
+	then
+		$productObject.setDiscount(15);
+	end
+
+rule "Offer for Gold"
+	when
+		$productObject: Product(TypeEnum.GOLD.type.equals(type))
+	then
+		$productObject.setDiscount(25);
+	end
+
+rule "CodeValidation"
+	when
+		Product(code != 0 && code not matches "^[0-9]{6}$")
+	then
+		throw new NumberFormatException("Invalid Product Code. Must be a valid 6 digits number.");
+end
